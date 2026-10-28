@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PREFIX=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+OUT_ROOT=${1:-$PWD/sq9060-photos}
+out="$OUT_ROOT/$(date +%Y-%m-%d_%H%M%S)"
+
+mkdir -p "$out"
+trap 'rmdir "$out" 2>/dev/null || true' EXIT
+cd "$out"
+
+"$PREFIX/bin/gphoto2" --camera "SQ Technology A130" --get-all-files
+
+shopt -s nullglob
+for f in *.ppm; do
+	pnmtojpeg --quality=95 "$f" >"${f%.ppm}.jpg"
+	rm "$f"
+done
+
+photos=(*.jpg)
+if [ ${#photos[@]} -eq 0 ]; then
+	echo "No photos on the camera."
+else
+	echo "Saved ${#photos[@]} photo(s) to $out"
+fi
