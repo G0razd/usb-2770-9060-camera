@@ -23,6 +23,10 @@ This repo uses libgphoto2 instead. Its `digigr8` driver already speaks this came
 patch here adds the camera's picture format (1280x960 stored as four compressed 640x480 quadrants). See
 [docs/FORMAT.md](docs/FORMAT.md).
 
+The change is also proposed upstream as
+[gphoto/libgphoto2#1337](https://github.com/gphoto/libgphoto2/pull/1337). Once a libgphoto2 release with
+it reaches your distribution, plain `gphoto2` works and the build step here is no longer needed.
+
 ## Windows 11
 
 Needs WSL with an Ubuntu distribution (`wsl --install` if you have none).
